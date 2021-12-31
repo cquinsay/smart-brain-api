@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcrypt-nodejs');
 
 const app = express();
 
@@ -25,6 +26,13 @@ const database = {
             entries: 0,
             joined: new Date()
         }
+    ],
+    login: [
+        {
+            id: '987',
+            hash: '',
+            email: 'john@gmail.com'
+        }
     ]
 }
 
@@ -33,6 +41,12 @@ app.get('/', (req, res) => {
 })
 
 app.post('/signin', (req, res) => {
+    bcrypt.compare('apples', '$2a$10$Kr3ZQ6ki1/NI81OfxGj1q.8EnL3cDdUL7AAKJtt6vgGTdoilp5ha6', function (err, res) {
+        console.log('first guess', res)
+    });
+    bcrypt.compare("veggies", '$2a$10$Kr3ZQ6ki1/NI81OfxGj1q.8EnL3cDdUL7AAKJtt6vgGTdoilp5ha6', function (err, res) {
+        console.log('second guess', res)
+    });
     if (req.body.email === database.users[0].email
         && req.body.password === database.users[0].password) {
         res.json('success');
@@ -82,6 +96,10 @@ app.post('/image', (req, res) => {
         res.status(400).json('not found');
     }
 })
+
+
+
+
 
 app.listen(3000, () => {
     console.log('app is running on Port 3000');
