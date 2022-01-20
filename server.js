@@ -3,16 +3,18 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
 
-knex({
-    client: 'mysql',
+const postgres = knex({
+    client: 'pg',
     connection: {
         host: '127.0.0.1',
-        port: 3306,
-        user: 'your_database_user',
-        password: 'your_database_password',
-        database: 'myapp_test'
+        port: 3001,
+        user: 'cjquinsay',
+        password: '',
+        database: 'smart-brain'
     }
 });
+
+postgres.select('*').from('users');
 
 const app = express();
 
